@@ -1,0 +1,55 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Data_insertion 
+{
+	static final String url="jdbc:mysql://localhost:3306/Bollywood_Favouritemovs";
+	static final String userid="root";
+	static final String password="amit";
+	static final String sql=" Select Movie_name, Actor_name,Actress_Name,Director_Name,Release_Date from movies	";
+	
+
+	public static void main(String[] args)
+	{
+		try(Connection conn=DriverManager.getConnection(url, userid, password);
+				Statement stmt=conn.createStatement();)
+		{
+
+	    	  // String query="INSERT INTO Movies values('"+HUM SATH SATH HAI+"','"+SALMAN KHAN+"','"+TABBU+"','"+SURAJ BARJATYEA+"')";
+			String query="INSERT INTO Movies values('MS DHONI THE UNTOLD STORY','SUSHANT SINGH RAJPUT','KIARA ADVANI','NEERAJ PANDEY','30.09.2016')";
+			 PreparedStatement pst=conn.prepareStatement(query);
+			stmt.executeUpdate(query);
+			System.out.println("Data Successfully inserted \n");
+			System.out.println("to view table press 1");
+			Scanner sc=new Scanner(System.in);
+			int x=sc.nextInt();
+			if(x==1)
+			{
+			 ResultSet rs=stmt.executeQuery(sql);
+			 {
+				 while(rs.next())
+				 {
+			System.out.println("Movie_name"+rs.getString("Movie_Name"));
+			System.out.println(",Actor_name"+rs.getString("Actor_Name"));
+			System.out.println(",Actress_name"+rs.getString("Actress_Name"));
+			System.out.println(",Director_Name"+rs.getString("Director_Name"));
+			System.out.println(",Release_Date"+rs.getString("Release_Date"));
+				 }
+			 }
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+
+	}
+
+}
